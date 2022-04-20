@@ -34,15 +34,19 @@ while True:
 
             elif choice == "display":
                 from modules.shift import display
-                display(board, string=function.split(" ")[1])
+                string = function.split(" ")[1]
+                seconds = int(function.split(" ")[2])
+                display(board, string, seconds)
 
             elif choice == "timer":
                 from modules.shift import timer
-                timer(board, x=int(function.split(" ")[1]))
+                seconds = int(function.split(" ")[1])
+                timer(board, seconds)
 
             elif choice == "sonar":
                 from modules.ultra import run_sonar
-                run_sonar(board, triggerPin=2, echoPin=3, x=int(function.split(" ")[1]))
+                seconds = int(function.split(" ")[1])
+                run_sonar(board, triggerPin=2, echoPin=3, x=seconds)
 
             elif choice == "settings":
                 display_settings()

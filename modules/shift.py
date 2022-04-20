@@ -11,6 +11,8 @@ from modules.console import get_timestamp
 
 def setup(board: Pymata4):
 
+    """A function that prepares all pins for use in the seven segment display"""
+
     dig1 = 12  # Digit 1 (D1) common pin which when set to HIGH activates the first digit
     dig2 = 11  # Digit 2 (D2) common pin which when set to HIGH activates the second digit
     dig3 = 10  # Digit 3 (D3) common pin which when set to HIGH activates the third digit
@@ -35,10 +37,12 @@ def setup(board: Pymata4):
 
 def display_character(board: Pymata4, pins: list, char: str, digit: int, turnOff: bool = False):
 
+    """A function that outputs a single character to the seven segment display"""
+
     dataPin, latchPin, clockPin = pins[0], pins[1], pins[2]
 
     from storage import charLookup
-    values = charLookup[char]
+    values = charLookup[char]  # fetch character encoding, i.e. the segment values
     values = '0' + values  # add zero due to decimal point being first output pin
     values = values[::-1]  # reverse sequence due to nature of shift register
 
@@ -46,7 +50,7 @@ def display_character(board: Pymata4, pins: list, char: str, digit: int, turnOff
 
     for value in values:
 
-        board.digital_write(dataPin, int(value))  # send one bit (also shifts previous bit down)
+        board.digital_write(dataPin, int(value))  # send one bit (also shifts previous bits down)
         board.digital_write(clockPin, 1)  # turn on clock
         board.digital_write(clockPin, 0)  # turn off clock
 
@@ -55,25 +59,24 @@ def display_character(board: Pymata4, pins: list, char: str, digit: int, turnOff
     board.digital_write(digit, 0)  # turn on digit
 
     if turnOff:
+        time.sleep(0.0025)
         board.digital_write(digit, 1)
 
     return
 
 
-def display(board: Pymata4, string: str, x: float = 1):
+def display(board: Pymata4, string: str, x: int):
 
-    """A function to ask user to display a string for x minutes."""
-
-    print(f"{get_timestamp()} - Seven segment display: ON")
+    """A function display user's specified string for x seconds."""
 
     digits, pins = setup(board)
+    print(f"{get_timestamp()} - Seven segment display: ON")
 
+    print(f"{get_timestamp()} - Displaying {string} for {x} seconds ...")
     string = string[::-1]  # reverse string due to nature of shift register
 
-    endTime = time.time() + x * 60
-    while time.time() < endTime:
-
-        time.sleep(0.0025)  # prevent laptop from crashing
+    endTime = time.time() + x/2
+    while True:
 
         for i in range(len(string)):
 
@@ -85,6 +88,10 @@ def display(board: Pymata4, string: str, x: float = 1):
             except KeyError:
                 pass
 
+        if time.time() > endTime:
+            break
+
+    time.sleep(x/2)
     for digit in digits:
         board.digital_write(digit, 1)
     print(f"{get_timestamp()} - Seven segment display: OFF")
@@ -92,7 +99,7 @@ def display(board: Pymata4, string: str, x: float = 1):
     return
 
 
-def timer(board: Pymata4, x: int = 9):
+def timer(board: Pymata4, x: int):
 
     """A function to countdown from x seconds"""
 
