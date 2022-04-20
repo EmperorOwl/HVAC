@@ -1,0 +1,5 @@
+authenticationPin = 1234
+fanSpeed = 9
+coldTemp = 15
+roomTemp = 20
+hotTemp = 25
