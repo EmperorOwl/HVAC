@@ -22,36 +22,41 @@ while True:
 
     try:
 
-        if choice == "blink":
-            from modules.electrical import blink
-            blink(board)
+        try:
 
-        elif choice == "light":
-            from modules.electrical import light
-            light(board, buttonPin=0, lightPin=1)
+            if choice == "blink":
+                from modules.electrical import blink
+                blink(board)
 
-        elif choice == "display":
-            from modules.shift import display
-            display(board, string=function.split(" ")[1])
+            elif choice == "light":
+                from modules.electrical import light
+                light(board, buttonPin=0, lightPin=1)
 
-        elif choice == "timer":
-            from modules.shift import timer
-            timer(board, x=int(function.split(" ")[1]))
+            elif choice == "display":
+                from modules.shift import display
+                display(board, string=function.split(" ")[1])
 
-        elif choice == "sonar":
-            from modules.ultra import run_sonar
-            run_sonar(board, triggerPin=2, echoPin=3, x=int(function.split(" ")[1]))
+            elif choice == "timer":
+                from modules.shift import timer
+                timer(board, x=int(function.split(" ")[1]))
 
-        elif choice == "settings":
-            display_settings()
+            elif choice == "sonar":
+                from modules.ultra import run_sonar
+                run_sonar(board, triggerPin=2, echoPin=3, x=int(function.split(" ")[1]))
 
-        elif choice == "quit" or choice == "0":
-            print(f"{get_timestamp()} - HVAC System is offline!")
-            board.shutdown()
-            quit()
+            elif choice == "settings":
+                display_settings()
 
-        else:
-            print(f"{get_timestamp()} - Incorrect function selected")
+            elif choice == "quit" or choice == "0":
+                print(f"{get_timestamp()} - HVAC System is offline!")
+                board.shutdown()
+                quit()
+
+            else:
+                print(f"{get_timestamp()} - ERROR: Invalid function")
+
+        except IndexError:
+            print(f"{get_timestamp()} - ERROR: Missing argument(s)")
 
     except KeyboardInterrupt:
             print(f"{get_timestamp()} - Current process interrupted")
