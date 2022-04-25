@@ -35,6 +35,31 @@ def setup(board: Pymata4):
     return digits, pins
 
 
+def check_string(string: str):
+
+    """A function that checks each character in the string before outputting to the seven segment display"""
+
+    for i in range(len(string)):
+
+        char = string[i]
+
+        if char in ['B', 'D', 'N', 'Q', 'R', 'T', 'Y']:
+            string = string[:i] + char.lower() + string[i+1:]
+            print(f"{get_timestamp()} - The letter {char} cannot be displayed. "
+                  f"Its lowercase equivalent will instead be used.")
+
+        elif char in ['e', 'f', 'g', 'i', 'j', 'l', 'p', 's']:
+            string = string[:i] + char.upper() + string[i+1:]
+            print(f"{get_timestamp()} - The letter {char} cannot be displayed. "
+                  f"Its uppercase equivalent will instead be used.")
+
+        elif char in ['k', 'm', 'v', 'w', 'x', 'z']:
+            print(f"{get_timestamp()} - The letter {char} cannot be displayed. "
+                  f"It will be skipped.")
+
+    return string
+
+
 def display_character(board: Pymata4, pins: list, char: str, digit: int, turnOff: bool = False):
 
     """A function that outputs a single character to the seven segment display"""
@@ -50,7 +75,7 @@ def display_character(board: Pymata4, pins: list, char: str, digit: int, turnOff
 
     for value in values:
 
-        board.digital_write(dataPin, int(value))  # send one bit (also shifts previous bits down)
+        board.digital_write(dataPin, int(value))  # send one bit and shift previous bits down
         board.digital_write(clockPin, 1)  # turn on clock
         board.digital_write(clockPin, 0)  # turn off clock
 
@@ -72,11 +97,13 @@ def display(board: Pymata4, string: str, x: int):
     digits, pins = setup(board)
     print(f"{get_timestamp()} - Seven segment display: ON")
 
+    string = check_string(string)
     print(f"{get_timestamp()} - Displaying {string} for {x} seconds ...")
+
     string = string[::-1]  # reverse string due to nature of shift register
 
-    endTime = time.time() + x/2
-    while True:
+    endTime = time.time() + 0.55*x
+    while time.time() < endTime:
 
         for i in range(len(string)):
 
@@ -88,10 +115,7 @@ def display(board: Pymata4, string: str, x: int):
             except KeyError:
                 pass
 
-        if time.time() > endTime:
-            break
-
-    time.sleep(x/2)
+    time.sleep(0.45*x)
     for digit in digits:
         board.digital_write(digit, 1)
     print(f"{get_timestamp()} - Seven segment display: OFF")
@@ -123,4 +147,3 @@ def timer(board: Pymata4, x: int):
     print(f"{get_timestamp()} - Seven segment display: OFF")
 
     return
-
