@@ -1,5 +1,7 @@
-# Week 7 Practical
-# - Graphing
+# Description: Code for graphing
+# Author: C20
+# Notes:
+# - Week 7 Practical
 
 import time
 import matplotlib.pyplot as plt

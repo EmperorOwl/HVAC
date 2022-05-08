@@ -1,3 +1,6 @@
+# Description: File to store large variables and data
+# Author: C20
+
 charLookup = {
     ' ': '0000000',
     '0': '1111110',

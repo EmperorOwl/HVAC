@@ -1,5 +1,9 @@
-# Week 5 Practical
+# Description: Code for asking inputs and displaying outputs
+# Author: C20
+# Notes:
+# - Week 5 Practical
 # - Menu logic
+# - Milestone 5 Systems Parameters + Security
 
 import time
 

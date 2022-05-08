@@ -1,6 +1,10 @@
-# Week 3 & 4 Practical
+# Description: Code for some miscellaneous electrical stuff
+# Author: C20
+# Notes:
+# - Week 3 & 4 Practical
 # - Blink
 # - Light
+# - Not part of HVAC
 
 import time
 from pymata4.pymata4 import Pymata4

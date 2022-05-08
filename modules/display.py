@@ -1,6 +1,9 @@
-# Week 5 Practical
-# - Seven segment display without shift register
-# - Takes up 11 pins on the Arduino
+# Description: Code for seven segment display without shift register
+# Author: C20
+# Notes:
+# - Week 5 Practical,
+# - Takes up 11 pins on Arduino,
+# - Deprecated, see shift.py for current version
 
 import time
 from pymata4.pymata4 import Pymata4

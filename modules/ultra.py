@@ -1,5 +1,8 @@
-# Week 7 Practical
-# - Ultrasonic sensor
+# Description: Code for ultrasonic sensor
+# Author: C20
+# Notes:
+# - Week 7 Practical
+# - Potentially use for safety
 
 import time
 from pymata4.pymata4 import Pymata4

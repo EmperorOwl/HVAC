@@ -1,3 +1,6 @@
+# Description: Main file used to connect to Arduino and run main menu
+# Author: C20
+
 from pymata4 import pymata4
 
 from modules.console import get_timestamp, display_menu, display_settings
@@ -47,6 +50,15 @@ while True:
                 from modules.ultra import run_sonar
                 seconds = int(function.split(" ")[1])
                 run_sonar(board, triggerPin=2, echoPin=3, x=seconds)
+
+            elif choice == "transistor":
+                from modules.transistor import transistor
+                state = input("Enter state: ")
+                transistor(board, 8, state)
+
+            elif choice == "motor":
+                from modules.motor import motor
+                motor(board)
 
             elif choice == "settings":
                 display_settings()

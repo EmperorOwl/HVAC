@@ -1,5 +1,7 @@
-# Week 7 Practical
-# - Seven segment display with shift register
+# Description: Code for seven-segment display with shift register
+# Author: C20
+# Notes:
+# - Week 7 Practical
 # - Four digital pins used to control the four common digits
 # - Three digital pins for SER, RCLK and SRCLK
 
