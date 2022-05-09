@@ -51,6 +51,10 @@ while True:
                 seconds = int(function.split(" ")[1])
                 run_sonar(board, triggerPin=2, echoPin=3, x=seconds)
 
+            elif choice == "buzzer":
+                from modules.buzzer import sound_buzzer
+                sound_buzzer(board, state="rapid up temp")
+
             elif choice == "transistor":
                 from modules.transistor import transistor
                 state = input("Enter state: ")
