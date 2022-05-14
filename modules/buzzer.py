@@ -18,14 +18,14 @@ def sound_buzzer(board: Pymata4, state: str):
     if state.lower() == "rapid up temp":
 
         print(f"{get_timestamp()} - Rapid Up Temp: High Buzzer Sound Activated")
-        board.pwm_write(buzzerPin, 20)
-        time.sleep(0.5)
+        board.pwm_write(buzzerPin, 50)
+        time.sleep(1.5)
         board.pwm_write(buzzerPin, 0)
 
     elif state.lower() == "rapid down temp":
 
         print(f"{get_timestamp()} - Rapid Down Temp: Low Buzzer Sound Activated")
-        board.pwm_write(buzzerPin, 3)
+        board.pwm_write(buzzerPin, 5)
         time.sleep(0.5)
         board.pwm_write(buzzerPin, 0)
 
