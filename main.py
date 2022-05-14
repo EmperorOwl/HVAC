@@ -5,6 +5,8 @@ from pymata4 import pymata4
 
 from modules.console import get_timestamp, display_menu, display_settings
 
+
+# CONNECT TO ARDUINO
 while True:
 
     try:
@@ -16,6 +18,7 @@ while True:
         pass
 
 
+# DISPLAY MAIN MENU
 while True:
 
     display_menu()
@@ -30,10 +33,6 @@ while True:
             if choice == "blink":
                 from modules.electrical import blink
                 blink(board)
-
-            elif choice == "light":
-                from modules.electrical import light
-                light(board, buttonPin=0, lightPin=1)
 
             elif choice == "display":
                 from modules.shift import display
@@ -50,15 +49,6 @@ while True:
                 from modules.ultra import run_sonar
                 seconds = int(function.split(" ")[1])
                 run_sonar(board, triggerPin=2, echoPin=3, x=seconds)
-
-            elif choice == "buzzer":
-                from modules.buzzer import sound_buzzer
-                sound_buzzer(board, state="rapid up temp")
-
-            elif choice == "transistor":
-                from modules.transistor import transistor
-                state = input("Enter state: ")
-                transistor(board, 8, state)
 
             elif choice == "motor":
                 from modules.motor import motor
