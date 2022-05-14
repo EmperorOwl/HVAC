@@ -3,7 +3,8 @@
 
 from pymata4 import pymata4
 
-from modules.console import get_timestamp, display_menu, display_settings
+from modules.console import get_timestamp
+from modules.console import display_menu
 
 
 # CONNECT TO ARDUINO
@@ -32,7 +33,9 @@ while True:
 
             if choice == "blink":
                 from modules.electrical import blink
-                blink(board)
+                pin = int(function.split(" ")[1])
+                times = int(function.split(" ")[2])
+                blink(board, pin, x=times)
 
             elif choice == "display":
                 from modules.shift import display
@@ -48,13 +51,14 @@ while True:
             elif choice == "sonar":
                 from modules.ultra import run_sonar
                 seconds = int(function.split(" ")[1])
-                run_sonar(board, triggerPin=2, echoPin=3, x=seconds)
+                run_sonar(board, x=seconds)
 
             elif choice == "motor":
                 from modules.motor import motor
                 motor(board)
 
             elif choice == "settings":
+                from modules.settings import display_settings
                 display_settings()
 
             elif choice == "quit" or choice == "0":

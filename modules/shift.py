@@ -9,20 +9,28 @@ import time
 from pymata4.pymata4 import Pymata4
 
 from modules.console import get_timestamp
+from modules.file    import get_system_parameter
 
 
 def setup(board: Pymata4):
 
     """A function that prepares all pins for use in the seven segment display"""
 
-    dig1 = 12  # Digit 1 (D1) common pin which when set to HIGH activates the first digit
-    dig2 = 11  # Digit 2 (D2) common pin which when set to HIGH activates the second digit
-    dig3 = 10  # Digit 3 (D3) common pin which when set to HIGH activates the third digit
-    dig4 = 9   # Digit 4 (D4) common pin which when set to HIGH activates the fourth digit
+    # Digit 1 (D1) common pin which when set to HIGH activates the first digit
+    dig1 = int(get_system_parameter(name="D1"))
+    # Digit 2 (D2) common pin which when set to HIGH activates the second digit
+    dig2 = int(get_system_parameter(name="D2"))
+    # Digit 3 (D3) common pin which when set to HIGH activates the third digit
+    dig3 = int(get_system_parameter(name="D3"))
+    # Digit 4 (D4) common pin which when set to HIGH activates the fourth digit
+    dig4 = int(get_system_parameter(name="D4"))
 
-    dataPin  = 4  # Serial input pin (SER) used to feed data into the shift register a bit at a time
-    latchPin = 5  # Register latch (RCLK) which when set to HIGH stores the contents of the shift register
-    clockPin = 6  # Shift register clock (SRCLK) which when set to HIGH will shift bits into the shift register
+    # Serial input pin (SER) used to feed data into the shift register a bit at a time
+    dataPin = int(get_system_parameter(name="SER"))
+    # Register latch (RCLK) which when set to HIGH stores the contents of the shift register
+    latchPin = int(get_system_parameter(name="RCLK"))
+    # Shift register clock (SRCLK) which when set to HIGH will shift bits into the shift register
+    clockPin = int(get_system_parameter(name="SRCLK"))
 
     digits = [dig1, dig2, dig3, dig4]
     for dig in digits:
@@ -32,7 +40,6 @@ def setup(board: Pymata4):
     pins = [dataPin, latchPin, clockPin]
     for pin in pins:
         board.set_pin_mode_digital_output(pin)
-
 
     return digits, pins
 

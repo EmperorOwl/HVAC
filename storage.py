@@ -39,3 +39,34 @@ charLookup = {
     'u': '0011100',
     'y': '0111011'
 }
+
+
+coldReadings = [30, 28, 26, 24, 22, 20] + \
+               [19 for i in range(3)] + \
+               [18 for i in range(3)] + \
+               [17 for i in range(3)] + \
+               [16 for i in range(3)] + \
+               [15 for i in range(3)] + \
+               [14 for i in range(3)] + \
+               [13 for i in range(3)] + \
+               [12 for i in range(3)] + \
+               [11 for i in range(3)] + \
+               [10 for i in range(3)]
+
+heatReadings = [20, 22, 24, 26, 28, 30] + \
+               [31 for i in range(3)] + \
+               [32 for i in range(3)] + \
+               [33 for i in range(3)] + \
+               [34 for i in range(3)] + \
+               [35 for i in range(3)] + \
+               [36 for i in range(3)] + \
+               [37 for i in range(3)] + \
+               [38 for i in range(3)] + \
+               [39 for i in range(3)] + \
+               [40 for i in range(3)]
+
+fastReadings = [31 for i in range(1)] + \
+               [33 for i in range(2)] + \
+               [35 for i in range(3)] + \
+               [37 for i in range(4)] + \
+               [40 for i in range(5)]

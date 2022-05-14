@@ -8,8 +8,9 @@ import time
 from pymata4.pymata4 import Pymata4
 
 from modules.console import get_timestamp
+from modules.file    import get_system_parameter
 
-buzzerPin = 9
+buzzerPin = int(get_system_parameter(name="BUZZER"))
 
 def sound_buzzer(board: Pymata4, state: str):
 

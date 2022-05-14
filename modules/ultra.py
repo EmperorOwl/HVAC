@@ -7,14 +7,18 @@
 import time
 from pymata4.pymata4 import Pymata4
 
-from modules.console import get_timestamp, ask_user
+from modules.console  import get_timestamp, ask_user
+from modules.file     import get_system_parameter
 from modules.plotting import plot_graph, save_graph
 
 
 logs = []
 distances = []
 
-def run_sonar(board: Pymata4, triggerPin: int, echoPin: int, x: int):
+def run_sonar(board: Pymata4, x: int):
+
+    triggerPin = int(get_system_parameter(name="TRIGGER"))
+    echoPin    = int(get_system_parameter(name="ECHO"))
 
     """A function that uses the ultrasonic sensor for x seconds to measure the distance of an object in cm """
 
