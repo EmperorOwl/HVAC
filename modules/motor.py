@@ -45,6 +45,7 @@ def motor(board: Pymata4):
             board.pwm_write(pin1A, 0)
             board.pwm_write(pin2A, speed)
 
+            # check current temp is one degree greater than three seconds ago
             if currentTemp - tempReadings[i-3] > 1 and i > 3:
                 sound_buzzer(board, state="rapid up temp")
             else:
@@ -59,6 +60,7 @@ def motor(board: Pymata4):
             board.pwm_write(pin1A, speed)
             board.pwm_write(pin2A, 0)
 
+            # check current temp is one degree lower than three seconds ago
             if tempReadings[i-3] - currentTemp > 1 and i > 3:
                 sound_buzzer(board, state="rapid down temp")
             else:

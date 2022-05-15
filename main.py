@@ -7,8 +7,13 @@ from modules.console import get_timestamp
 from modules.console import display_menu
 
 
-# CONNECT TO ARDUINO
 while True:
+
+    """
+    A loop to keep attempting to connect to the Arduino until a connection is found.
+    
+    The try-except checks for a RunTimeError which is the error that Python throws when it cannot find the board.
+    """
 
     try:
         board = pymata4.Pymata4()
@@ -16,11 +21,24 @@ while True:
         break
 
     except RuntimeError:
-        pass
+        print(f"{get_timestamp()} - ERROR: Board not found, trying to connect again ...")
 
 
-# DISPLAY MAIN MENU
 while True:
+
+    """
+    A loop to control the menu system.
+        
+    The first try-except checks for a keyboard interrupt which stops the current process.
+    The second try-except checks that the user has entered the required arguments to perform the action.
+    The conditionals check which action the user has entered and then performs that action.
+    The use of split() is to fetch the name and arguments of the action entered.
+    
+    For example, "display 1234 5", where:
+    - "display" is the function name,
+    - "1234" is the first argument which tells HVAC the string to show on the seven-segment display and
+    - "5" is the second argument which tells HVAC how long to display for in seconds.
+    """
 
     display_menu()
 

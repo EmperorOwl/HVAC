@@ -1,4 +1,4 @@
-PIN = 0000
+PIN = 1234
 COLD = 20
 ROOM = 20
 HOT = 30

@@ -17,17 +17,17 @@ distances = []
 
 def run_sonar(board: Pymata4, x: int):
 
-    triggerPin = int(get_system_parameter(name="TRIGGER"))
-    echoPin    = int(get_system_parameter(name="ECHO"))
-
     """A function that uses the ultrasonic sensor for x seconds to measure the distance of an object in cm """
 
-    endTime = time.time() + x
-
+    # SETUP SONAR
+    triggerPin = int(get_system_parameter(name="TRIGGER"))
+    echoPin = int(get_system_parameter(name="ECHO"))
     board.set_pin_mode_sonar(triggerPin, echoPin, callback=lambda data: logs.append(data), timeout=200000)
 
     print(f"{get_timestamp()} - Ultrasonic Sensor: ON")
 
+    # RUN SONAR
+    endTime = time.time() + x
     while time.time() < endTime:
 
         time.sleep(1)
@@ -39,6 +39,7 @@ def run_sonar(board: Pymata4, x: int):
 
     print(f"{get_timestamp()} - Ultrasonic Sensor: OFF")
 
+    # ASK PLOT GRAPH
     response = ask_user("Plot data (y/n)")
     if response is True:
 
@@ -49,6 +50,7 @@ def run_sonar(board: Pymata4, x: int):
             grid = True
         )
 
+        # ASK SAVE PLOT
         response = ask_user("Save graph (y/n)")
         if response is True:
             save_graph(filename="Ultrasonic Sensor")

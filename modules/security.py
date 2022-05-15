@@ -9,11 +9,20 @@ from modules.console import get_timestamp, italicise_text
 from modules.file    import get_system_parameter
 
 
-unlockTime = time.time()  # variable for holding the time the user can log in again after three incorrect attempts
+unlockTime = time.time()
 
 def authenticate_user():
 
-    """A function that checks whether the user has entered the correct pin"""
+    """
+    A function that checks whether the user has entered the correct pin.
+
+    The global variable unlockTime holds the time user can log in again after three incorrect attempts.
+    The variable loggedIn holds whether the user has logged in.
+    The variable attempts holds the number of times the user has entered a pin.
+
+    The first conditional checks whether the user is on timeout.
+    The while loop runs the HVAC Security screen which asks for the correct pin.
+    """
 
     global unlockTime
     loggedIn = False

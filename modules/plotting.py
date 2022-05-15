@@ -12,6 +12,8 @@ fig = plt.gcf()
 
 def plot_graph(x: list, y: list, marker: str, title: str, xLabel: str, yLabel: str, grid: bool):
 
+    """A function to plot graph"""
+
     plt.plot(x, y, marker)
     plt.title(title)
     plt.xlabel(xLabel)
@@ -26,6 +28,8 @@ def plot_graph(x: list, y: list, marker: str, title: str, xLabel: str, yLabel: s
 
 
 def save_graph(filename):
+
+    """A function to save graph."""
 
     fig.savefig(
         f"plots/{filename} ({time.strftime('%d-%m-%y %H.%M')}).png",
