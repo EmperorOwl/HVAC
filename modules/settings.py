@@ -1,42 +1,13 @@
-# Description: Code authenticating user and
+# Description: Code for updating system parameters
 # Author: C20
 # Notes:
 # - Block 5 - Security
 
-from modules.console import get_timestamp, italicise_text
-from modules.file    import get_system_parameter
-from modules.file    import update_system_parameter
+import time
 
-
-def authenticate_user():
-
-    """A function that checks whether the user has entered the correct pin"""
-
-    loggedIn = False
-    failedAttempts = 0
-
-    while loggedIn is False and failedAttempts <= 5:
-
-        timestamp = get_timestamp()
-        whitespace = " " * (len(timestamp) + 2)
-
-        print()
-        print(f"{timestamp} - HVAC Security")
-        print(f"{whitespace} {italicise_text('Instructions: Type the correct four digit pin')}")
-        print(f"{whitespace} {italicise_text(f'Number of Failed Attempts: {failedAttempts}')}")
-
-        enteredPin = input(f"{get_timestamp()} - HVAC Pin: ")
-        correctPin = get_system_parameter(name="PIN")
-
-        if enteredPin == correctPin:
-            print(f"{get_timestamp()} - Access Granted: Correct Pin")
-            loggedIn = True
-
-        else:
-            print(f"{get_timestamp()} - Access Denied: Incorrect Pin")
-            failedAttempts += 1
-
-    return loggedIn
+from modules.console  import get_timestamp, italicise_text
+from modules.security import authenticate_user
+from modules.file     import update_system_parameter
 
 
 def check_system_parameter(name: str, value: str):
@@ -44,6 +15,7 @@ def check_system_parameter(name: str, value: str):
     """A function that verifies the new value for a system parameter against logical ranges"""
 
     passed = False
+
 
     if name == "PIN":
 
@@ -59,6 +31,7 @@ def check_system_parameter(name: str, value: str):
         else:
             print(f"{get_timestamp()} - ERROR: Pin must be a positive four-digit number.")
 
+
     elif name in ["HOT", "ROOM", "COLD"]:
 
         try:
@@ -70,8 +43,10 @@ def check_system_parameter(name: str, value: str):
         except ValueError:
             print(f"{get_timestamp()} - ERROR: Temperature must be a number.")
 
+
     elif name in ["D1", "D2", "D3", "D4", "SER", "RCLK", "SRCLK", "TRIGGER", "ECHO"]:
         passed = True
+
 
     elif name in ["BUZZER", "1A", "2A"]:
         pwmPins = [3, 5, 6, 9, 10, 11]
@@ -93,6 +68,8 @@ def display_settings():
 
     if authenticate_user() is True:
 
+        endTime = time.time() + 2*60  # variable for holding the time when the settings menu should time out
+
         while True:
 
             timestamp = get_timestamp()
@@ -113,14 +90,20 @@ def display_settings():
             parameter = input(f"{get_timestamp()} - HVAC Parameter: ")
             name = parameter.split(" ")[0].upper()
 
-            if name not in ["exit", "0"]:
-                value = parameter.split(" ")[1]
+            if time.time() < endTime:
 
-                if check_system_parameter(name, value) is True:
-                    update_system_parameter(name, value)
-                    print(f"{get_timestamp()} - Parameter {name} has been updated to {value}.")
+                if name not in ["exit", "0"]:
+                    value = parameter.split(" ")[1]
+
+                    if check_system_parameter(name, value) is True:
+                        update_system_parameter(name, value)
+                        print(f"{get_timestamp()} - Parameter {name} has been updated to {value}.")
+
+                else:
+                    break
 
             else:
+                print(f"{get_timestamp()} - Admin control access has timed out. Please log in again.")
                 break
 
     return
