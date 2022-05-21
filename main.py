@@ -56,10 +56,10 @@ while True:
                 blink(board, pin, x=times)
 
             elif choice == "display":
-                from modules.shift import display
+                from modules.shift import test_display
                 string = function.split(" ")[1]
                 seconds = int(function.split(" ")[2])
-                display(board, string, seconds)
+                test_display(board, string, seconds)
 
             elif choice == "timer":
                 from modules.shift import timer
@@ -67,13 +67,27 @@ while True:
                 timer(board, seconds)
 
             elif choice == "sonar":
-                from modules.ultra import run_sonar
+                from modules.ultra import test_sonar
                 seconds = int(function.split(" ")[1])
-                run_sonar(board, x=seconds)
+                test_sonar(board, x=seconds)
 
             elif choice == "motor":
-                from modules.motor import motor
-                motor(board)
+                from modules.motor import test_motor
+                test_motor(board)
+
+            elif choice == "buzzer":
+                from modules.buzzer import test_buzzer
+                intensity = int(function.split(" ")[1])
+                duration  = float(function.split(" ")[2])
+                test_buzzer(board, intensity, duration)
+
+            elif choice == "button":
+                from modules.button import test_button
+                test_button(board)
+
+            elif choice == "run":
+                from modules.integration import run_HVAC
+                run_HVAC(board)
 
             elif choice == "settings":
                 from modules.settings import display_settings

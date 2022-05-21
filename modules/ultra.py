@@ -12,18 +12,38 @@ from modules.file     import get_system_parameter
 from modules.plotting import plot_graph, save_graph
 
 
-logs = []
+logs      = []
 distances = []
 
-def run_sonar(board: Pymata4, x: int):
+triggerPin = int(get_system_parameter(name="TRIGGER"))
+echoPin    = int(get_system_parameter(name="ECHO"))
 
-    """A function that uses the ultrasonic sensor for x seconds to measure the distance of an object in cm """
+
+def setup_sonar(board: Pymata4):
+
+    """A function to set up ultrasonic sensor"""
+
+    board.set_pin_mode_sonar(triggerPin, echoPin, callback=lambda data: logs.append(data), timeout=200000)
+    # callback adds [pin_type, trigger_pin_number, distance_value (in cm), raw_time_stamp] to the logs array
+
+    return
+
+
+def get_distance():
+
+    """A function to fetch the latest distance"""
+
+    distance = logs[-1][2]
+
+    return distance
+
+
+def test_sonar(board: Pymata4, x: int):
+
+    """A function that uses the ultrasonic sensor for x seconds to measure the distance of an object in cm"""
 
     # SETUP SONAR
-    triggerPin = int(get_system_parameter(name="TRIGGER"))
-    echoPin = int(get_system_parameter(name="ECHO"))
-    board.set_pin_mode_sonar(triggerPin, echoPin, callback=lambda data: logs.append(data), timeout=200000)
-
+    setup_sonar(board)
     print(f"{get_timestamp()} - Ultrasonic Sensor: ON")
 
     # RUN SONAR
@@ -32,7 +52,7 @@ def run_sonar(board: Pymata4, x: int):
 
         time.sleep(1)
 
-        distance = logs[-1][2]
+        distance = get_distance()
         distances.append(distance)
 
         print(f"{get_timestamp()} - Distance: {distance} cm")

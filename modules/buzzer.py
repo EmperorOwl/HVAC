@@ -13,31 +13,33 @@ from modules.file    import get_system_parameter
 
 buzzerPin = int(get_system_parameter(name="BUZZER"))
 
-def sound_buzzer(board: Pymata4, state: str):
+def setup_buzzer(board: Pymata4):
 
-    """A function to sound the buzzer depending on the temperature state"""
+    """A function to set up buzzer"""
 
     board.set_pin_mode_pwm_output(buzzerPin)
 
-    if state.lower() == "rapid up temp":
+    return
 
-        print(f"{get_timestamp()} - Rapid Up Temp: High Buzzer Sound Activated")
 
-        # send long loud tone
-        board.pwm_write(buzzerPin, 50)
-        time.sleep(1.5)
-        board.pwm_write(buzzerPin, 0)
+def sound_buzzer(board: Pymata4, intensity: int, duration: float):
 
-    elif state.lower() == "rapid down temp":
+    """A function to sound buzzer"""
+    board.pwm_write(buzzerPin, intensity)
+    time.sleep(duration)
+    board.pwm_write(buzzerPin, 0)
 
-        print(f"{get_timestamp()} - Rapid Down Temp: Low Buzzer Sound Activated")
+    return
 
-        # send short quiet tone
-        board.pwm_write(buzzerPin, 5)
-        time.sleep(0.5)
-        board.pwm_write(buzzerPin, 0)
 
-    else:
-        board.pwm_write(buzzerPin, 0)
+def test_buzzer(board: Pymata4, intensity: int, duration: float):
+
+    """A function to test buzzer"""
+
+    setup_buzzer(board)
+    print(f"{get_timestamp()} - Buzzer: ON")
+    print(f"{get_timestamp()} - Intensity: {intensity}/255 \t Duration: {duration} s")
+    sound_buzzer(board, intensity, duration)
+    print(f"{get_timestamp()} - Buzzer: OFF")
 
     return

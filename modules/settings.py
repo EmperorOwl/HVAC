@@ -16,7 +16,6 @@ def check_system_parameter(name: str, value: str):
 
     passed = False
 
-
     if name == "PIN":
 
         if len(value) == 4:
@@ -31,6 +30,16 @@ def check_system_parameter(name: str, value: str):
         else:
             print(f"{get_timestamp()} - ERROR: Pin must be a positive four-digit number.")
 
+    elif name == "DANGER":
+
+        try:
+            pin = int(value)
+            if 15 <= pin <= 30:
+                passed = True
+            else:
+                print(f"{get_timestamp()} - ERROR: Danger distance must be in between 15 cm and 30 cm.")
+        except ValueError:
+            print(f"{get_timestamp()} - ERROR: Distance must be a positive number.")
 
     elif name in ["HOT", "ROOM", "COLD"]:
 
@@ -43,10 +52,8 @@ def check_system_parameter(name: str, value: str):
         except ValueError:
             print(f"{get_timestamp()} - ERROR: Temperature must be a number.")
 
-
-    elif name in ["D1", "D2", "D3", "D4", "SER", "RCLK", "SRCLK", "TRIGGER", "ECHO"]:
+    elif name in ["D1", "D2", "D3", "D4", "SER", "RCLK", "SRCLK", "TRIGGER", "ECHO", "THERMISTOR", "BUTTON"]:
         passed = True
-
 
     elif name in ["BUZZER", "1A", "2A"]:
         pwmPins = [3, 5, 6, 9, 10, 11]
@@ -81,11 +88,13 @@ def display_settings():
             print(f"{whitespace} {italicise_text('Examples: pin 1234, hot 30, exit')}")
             print(f"{whitespace} 1. Pin <new pin>")
             print(f"{whitespace} 2. Hot | Room | Cold <new temp>")
-            print(f"{whitespace} 3. D1 | D2 | D3 | D4 <new arduino pin>")
-            print(f"{whitespace} 4. SER | RCLK | SRCLK <new arduino pin>")
-            print(f"{whitespace} 5. Buzzer | 1A | 2A <new arduino pwm pin>")
-            print(f"{whitespace} 6. Trigger | Echo <new arduino pin>")
-            print(f"{whitespace} 5. Exit or 0")
+            print(f"{whitespace} 3. Danger <new distance>")
+            print(f"{whitespace} 4. D1 | D2 | D3 | D4 <new arduino pin>")
+            print(f"{whitespace} 5. SER | RCLK | SRCLK <new arduino pin>")
+            print(f"{whitespace} 6. Buzzer | 1A | 2A <new arduino pwm pin>")
+            print(f"{whitespace} 7. Trigger | Echo <new arduino pin>")
+            print(f"{whitespace} 8. Thermistor <new analog arduino pin>")
+            print(f"{whitespace} 9. Exit or 0")
 
             parameter = input(f"{get_timestamp()} - HVAC Parameter: ")
             name = parameter.split(" ")[0].upper()
@@ -93,11 +102,16 @@ def display_settings():
             if time.time() < endTime:
 
                 if name not in ["exit", "0"]:
-                    value = parameter.split(" ")[1]
 
-                    if check_system_parameter(name, value) is True:
-                        update_system_parameter(name, value)
-                        print(f"{get_timestamp()} - Parameter {name} has been updated to {value}.")
+                    try:
+                        value = parameter.split(" ")[1]
+
+                        if check_system_parameter(name, value) is True:
+                            update_system_parameter(name, value)
+                            print(f"{get_timestamp()} - Parameter {name} has been updated to {value}.")
+
+                    except IndexError:
+                        print(f"{get_timestamp()} - ERROR: Missing argument.")
 
                 else:
                     break

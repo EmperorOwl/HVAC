@@ -62,8 +62,10 @@ def display_menu():
     print(f"{whitespace} 3. Display <string> <seconds>")
     print(f"{whitespace} 4. Sonar <seconds>")
     print(f"{whitespace} 5. Timer <seconds>")
-    print(f"{whitespace} 6. Motor")
-    print(f"{whitespace} 7. Settings")
-    print(f"{whitespace} 8. Quit or 0")
+    print(f"{whitespace} 6. Buzzer <intensity> <duration>")
+    print(f"{whitespace} 7. Motor")
+    print(f"{whitespace} 8. Run")
+    print(f"{whitespace} 9. Settings")
+    print(f"{whitespace} 10. Quit or 0")
 
     return

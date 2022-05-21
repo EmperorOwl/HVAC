@@ -12,18 +12,18 @@ from modules.console import get_timestamp
 from modules.file    import get_system_parameter
 
 
-def setup(board: Pymata4):
+def setup_display(board: Pymata4):
 
     """A function that prepares all pins for use in the seven segment display"""
 
     # Digit 1 (D1) common pin which when set to HIGH activates the first digit
-    dig1 = int(get_system_parameter(name="D1"))
+    dig1 = int(get_system_parameter(name="DIG1"))
     # Digit 2 (D2) common pin which when set to HIGH activates the second digit
-    dig2 = int(get_system_parameter(name="D2"))
+    dig2 = int(get_system_parameter(name="DIG2"))
     # Digit 3 (D3) common pin which when set to HIGH activates the third digit
-    dig3 = int(get_system_parameter(name="D3"))
+    dig3 = int(get_system_parameter(name="DIG3"))
     # Digit 4 (D4) common pin which when set to HIGH activates the fourth digit
-    dig4 = int(get_system_parameter(name="D4"))
+    dig4 = int(get_system_parameter(name="DIG4"))
 
     # Serial input pin (SER) used to feed data into the shift register a bit at a time
     dataPin = int(get_system_parameter(name="SER"))
@@ -99,17 +99,15 @@ def display_character(board: Pymata4, pins: list, char: str, digit: int, turnOff
     return
 
 
-def display(board: Pymata4, string: str, x: int):
+def test_display(board: Pymata4, string: str, x: int):
 
     """A function display user's specified string for x seconds."""
 
-    digits, pins = setup(board)
+    digits, pins = setup_display(board)
     print(f"{get_timestamp()} - Seven segment display: ON")
 
     string = check_string(string)
     print(f"{get_timestamp()} - Displaying {string} for {x} seconds ...")
-
-    string = string[::-1]  # reverse string due to nature of shift register
 
     endTime = time.time() + 0.55*x
     while time.time() < endTime:
@@ -132,13 +130,32 @@ def display(board: Pymata4, string: str, x: int):
     return
 
 
+def display(board: Pymata4, digits: list, pins: list, string: str):
+
+    """
+    A function to display for integration purposes
+    - Must call setup_display before
+    - No stuff printed
+    - Will not check string for illegal characters
+    - Only displays for one second
+    """
+    for _ in range(20):
+        for i in range(len(string)):
+
+            char = string[i]
+            dig = digits[i]
+
+            display_character(board, pins, char, dig, turnOff=True)
+
+    return
+
+
 def timer(board: Pymata4, x: int):
 
     """A function to countdown from x seconds"""
 
+    digits, pins = setup_display(board)
     print(f"{get_timestamp()} - Seven segment display: ON")
-
-    digits, pins = setup(board)
 
     for sec in range(x, -1, -1):
 
