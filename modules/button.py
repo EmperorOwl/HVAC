@@ -25,7 +25,7 @@ def check_press(board: Pymata4):
     """A function to check whether button has been pressed"""
 
     reading = board.analog_read(buttonPin)[0]
-    if reading  < 250:
+    if reading  < 250:  # low voltage
         press = True
     else:
         press = False

@@ -25,6 +25,7 @@ def setup_buzzer(board: Pymata4):
 def sound_buzzer(board: Pymata4, intensity: int, duration: float):
 
     """A function to sound buzzer"""
+
     board.pwm_write(buzzerPin, intensity)
     time.sleep(duration)
     board.pwm_write(buzzerPin, 0)

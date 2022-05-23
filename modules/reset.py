@@ -6,7 +6,6 @@ from pymata4.pymata4 import Pymata4
 
 from modules.file import get_system_parameter
 
-
 resetPin = int(get_system_parameter(name="RESET"))
 
 def setup_reset(board: Pymata4):
@@ -23,7 +22,8 @@ def check_reset(board: Pymata4):
     """A function to check if reset needed"""
 
     reading = board.analog_read(resetPin)[0]
-    if reading < 250:
+
+    if reading < 250: # low voltage
         reset = True
     else:
         reset = False

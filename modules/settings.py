@@ -52,7 +52,7 @@ def check_system_parameter(name: str, value: str):
         except ValueError:
             print(f"{get_timestamp()} - ERROR: Temperature must be a number.")
 
-    elif name in ["D1", "D2", "D3", "D4", "SER", "RCLK", "SRCLK", "TRIGGER", "ECHO", "THERMISTOR", "BUTTON"]:
+    elif name in ["D1", "D2", "D3", "D4", "SER", "RCLK", "SRCLK", "TRIGGER", "ECHO", "THERMISTOR", "BUTTON", "RESET"]:
         passed = True
 
     elif name in ["BUZZER", "1A", "2A"]:

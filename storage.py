@@ -1,6 +1,7 @@
 # Description: File to store large variables and data
 # Author: C20
 
+# ENCODING FOR SHIFT REGISTER TO OUTPUT TO 7-SEG DISPLAY
 charLookup = {
     ' ': '0000000',
     '0': '1111110',
@@ -41,6 +42,7 @@ charLookup = {
 }
 
 
+# OLD FAKE THERMISTOR DATA FOR TESTING MOTOR IN BLOCK 3
 coldReadings = [30, 28, 26, 24, 22, 20] + \
                [19 for i in range(3)] + \
                [18 for i in range(3)] + \

@@ -37,12 +37,12 @@ def run_HVAC(board: Pymata4):
 
         distance = get_distance()
 
-        if distance <= dangerDistance:
+        if distance <= dangerDistance:  # check that user is not too close to fan
             shutdown_motor(board)
             display(board, digits, pins, string="StOP")
             print(f"{get_timestamp()} - DANGER: Object detected {distance} cm from fan.")
 
-        else:
+        else:  # otherwise, proceed by getting temperature, activating fan and/or buzzer if necessary
 
             tempReadings = get_temp(board)
             currentTemp  = tempReadings[-1]
@@ -51,10 +51,10 @@ def run_HVAC(board: Pymata4):
 
             if len(tempReadings) > 4:
                 if currentTemp - tempReadings[-3] > 1:
-                    sound_buzzer(board, intensity=50, duration=1)
+                    sound_buzzer(board, intensity=150, duration=1.5)
                     print(f"{get_timestamp()} - Rapid Up Temp: High Buzzer Sound Activated")
                 elif tempReadings[-3] - currentTemp > 1:
-                    sound_buzzer(board, intensity=25, duration=0.5)
+                    sound_buzzer(board, intensity=50, duration=0.5)
                     print(f"{get_timestamp()} - Rapid Down Temp: Low Buzzer Sound Activated")
 
         if check_press(board) is True:

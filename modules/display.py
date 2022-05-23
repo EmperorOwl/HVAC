@@ -1,4 +1,4 @@
-# Description: Code for seven segment display without shift register
+# Description: Code for seven segment display without shift register [NO LONGER IN USE]
 # Author: C20
 # Notes:
 # - Week 5 Practical,
