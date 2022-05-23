@@ -13,6 +13,7 @@ from modules.motor      import setup_motor, run_motor, shutdown_motor
 from modules.buzzer     import setup_buzzer, sound_buzzer
 from modules.button     import setup_button, check_press
 from modules.shift      import setup_display, display
+from modules.reset      import setup_reset, check_reset
 
 dangerDistance = int(get_system_parameter(name="DANGER"))
 
@@ -20,14 +21,15 @@ def run_HVAC(board: Pymata4):
 
     """A function to run fully integrated HVAC system"""
 
-
     # SETUP ALL COMPONENTS
     setup_thermistor(board)
     setup_sonar(board)
     setup_motor(board)
     setup_buzzer(board)
     setup_button(board)
+    setup_reset(board)
     digits, pins = setup_display(board)
+
     # RUN SYSTEM
     while True:
 
@@ -56,8 +58,12 @@ def run_HVAC(board: Pymata4):
                     print(f"{get_timestamp()} - Rapid Down Temp: Low Buzzer Sound Activated")
 
         if check_press(board) is True:
+            print(f"{get_timestamp()} - Emergency Button Pressed: HVAC Switched Off")
             break
 
-    print(f"{get_timestamp()} - Emergency Button Pressed: HVAC Switched Off")
+        if check_reset(board) is True:
+            board.send_reset()
+            print(f"{get_timestamp()} - Board has been reset.")
+            break
 
     return

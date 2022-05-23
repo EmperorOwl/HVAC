@@ -4,10 +4,10 @@ from pymata4.pymata4 import Pymata4
 
 from modules.file import get_system_parameter
 
-
 thermistorPin = int(get_system_parameter(name="THERMISTOR"))
-R1        = 100000
-tempReadings = []
+R1            = 100000
+tempReadings  = []
+
 
 def setup_thermistor(board: Pymata4):
 
